@@ -1,0 +1,39 @@
+import { Module } from '@nestjs/common';
+import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
+import { logLevel } from '@nestjs/microservices/external/kafka.interface';
+import { EventbusController } from './eventbus.controller';
+
+const kafkaOptions: KafkaOptions = {
+ 
+  transport: Transport.KAFKA,
+
+  options: {
+    client: {
+      clientId: 'client-demo',
+      brokers: ['pkc-22z82.japaneast.azure.confluent.cloud:9092'],
+      ssl: true,
+      sasl: {
+        mechanism: 'plain',
+        username: 'I3LJSKCZZFCN3EUE',
+        password: 'yuulhyzCyjgF4YqSQ5fgtWvqSZLoxu2BKvqsX0B0ahH/B9kXswBorfyAdVCPSLr/',
+      },
+      logLevel: logLevel.INFO
+    },
+    producerOnlyMode: true,
+    consumer: {
+      groupId: '2',
+      allowAutoTopicCreation: true,
+    },
+  }
+};
+
+@Module({
+  imports: [ClientsModule.register([
+    {
+      name: 'EQX_EVENT_BUS_KAFKA_CLIENT',
+      ...kafkaOptions,
+    },
+  ])],
+  controllers: [EventbusController]
+})
+export class EventbusModule {}

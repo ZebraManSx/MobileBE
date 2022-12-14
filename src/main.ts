@@ -1,0 +1,42 @@
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { KafkaOptions, Transport } from '@nestjs/microservices';
+import { AppModule } from './app.module';
+
+const kafkaOptions: KafkaOptions = {
+  transport: Transport.KAFKA,
+
+  options: {
+    client: {
+      clientId: 'client-demo',
+      brokers: ['pkc-22z82.japaneast.azure.confluent.cloud:9092'],
+      ssl: true,
+      sasl: {
+        mechanism: 'plain',
+        username: 'I3LJSKCZZFCN3EUE',
+        password: 'yuulhyzCyjgF4YqSQ5fgtWvqSZLoxu2BKvqsX0B0ahH/B9kXswBorfyAdVCPSLr/',
+      }
+    },
+    producerOnlyMode: true,
+    consumer: {
+      groupId: '2',
+      allowAutoTopicCreation: true,
+    },
+  }
+};
+
+
+async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger:
+      process.env.DEBUG_MODE && process.env.DEBUG_MODE === 'true'
+        ? ['log', 'error', 'warn', 'debug']
+        : ['log', 'error', 'warn'],
+  });
+
+  app.connectMicroservice(kafkaOptions);
+
+  await app.startAllMicroservices();
+  await app.listen(3000);
+}
+bootstrap();
