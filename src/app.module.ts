@@ -3,6 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventbusModule } from './eventbus/eventbus.module';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
+//import { ServeStaticModule } from '@nestjs/serve-static';
+//import { join } from 'path';
+import { EventsModule } from './events/events.module'; 
 
 const kafkaOptions: KafkaOptions = {
  
@@ -34,7 +37,12 @@ const kafkaOptions: KafkaOptions = {
         name: 'EQX_EVENT_BUS_KAFKA_CLIENT',
         ...kafkaOptions,
       },
-    ]),EventbusModule],
+      
+    ]),
+     
+    EventbusModule,
+     
+    EventsModule],
   controllers: [AppController],
   providers: [AppService],
 })

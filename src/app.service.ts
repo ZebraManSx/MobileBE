@@ -19,7 +19,11 @@ export class AppService {
   }
 
   produceTomeSource(): string {
-    this.client.emit('tome_source','[REST API Produce] hello 1234 !@#$ ...')
+    this.client.emit('tome_source','[REST API Produce tome_source] hello 1234 !@#$ ...')
     return 'Hello World!';
+  }
+
+  produceTopic(topic: string,data:string) {
+    this.client.emit(topic,data);
   }
 }

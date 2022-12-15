@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <title>Produce Topic</title>
+</head>
+<body>
+    <form id="form" action="/api/produce/topic" method="POST" >
+        <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text'/>
+        <div>data</div><textarea id="data" name="data" autocomplete="off" rows="10" cols="150"></textarea>
+        <button type="submit">Emit</button>
+    </form> 
+    <hr>
+    <div>result</div>
+    <textarea id="produce-topic-response" rows="10" cols="150"></textarea>
+    <hr>
+    <div>event result</div>
+    <textarea id="event-result" rows="10" cols="150"></textarea>
+    <button onclick="buttonClicked()">Click me</button>
+    <hr>
+    <div>command result</div>
+    <textarea id="command-result" rows="10" cols="150"></textarea> 
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      const socket = io('http://localhost:3000');
+      socket.on('connect', function() {
+        console.log('Connected');
+
+        socket.emit('events', { test: 'test' ,time:new Date() });
+       /*socket.emit('identity', 0, response =>
+          console.log('Identity:', response),
+        );*/
+
+        socket.emit('command', { address: 'test-address' ,time:new Date() } );
+
+
+        // Now that we are connected let's send our test call with callback
+        socket.emit('testmessage', {"topic":"test-payload",time:new Date()}, (response) => {
+            console.log(response)  
+        })
+
+      });
+      
+      function buttonClicked(){
+         console.log('buttonClicked...')
+         socket.emit('testmessage', {"topic":"test-payload-with-buttonClicked",time:new Date()}, (response) => {
+            console.log(response)  
+          })
+			 }
+
+       
+
+      socket.on('exception', function(data) {
+        console.log('event', data);
+      });
+      socket.on('disconnect', function() {
+        console.log('Disconnected');
+      });
+    /*var form = document.getElementById('form');
+    var topic = document.getElementById('topic');
+    var data = document.getElementById('data');
+        
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (topic.value) {
+            //socket.emit('produce topic',"{topic:"+topic.value+",data:"+data.value+"}");
+            topic.value = '';
+            data.value = '';
+        }
+        
+    });
+*/
+    socket.on('produce-topic-response', function(msg) {
+        var item = document.getElementById('produce-topic-response');
+        item.innerText = msg; 
+    });
+
+    socket.on('command-response', function(msg) {
+        var item = document.getElementById('command-result');
+        item.innerText = msg; 
+    });
+
+
+    socket.on('events', function(msg) {
+        var item = document.getElementById('event-result');
+        item.innerText = msg; 
+    });
+    </script>
+</body>
+
+</html>

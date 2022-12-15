@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { KafkaOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
+import { join } from 'path';
 
 const kafkaOptions: KafkaOptions = {
   transport: Transport.KAFKA,
@@ -37,6 +38,9 @@ async function bootstrap() {
   app.connectMicroservice(kafkaOptions);
 
   await app.startAllMicroservices();
+  //console.log('dir is : '+join(__dirname, 'views'));
+  //app.useStaticAssets(join(__dirname, 'views'));
+  //app.setViewEngine('html');
   await app.listen(3000);
 }
 bootstrap();
