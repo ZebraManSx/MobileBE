@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && nest start",
+    "y": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && nest start --debug --watch",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

@@ -4,33 +4,39 @@
     <title>Produce Topic</title>
 </head>
 <body>
+    <h1>PRODUCE TOPIC</h1>
     <form id="form" action="/api/produce/topic" method="POST" >
         <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text'/>
         <div>data</div><textarea id="data" name="data" autocomplete="off" rows="10" cols="150"></textarea>
         <button type="submit">Emit</button>
     </form> 
     <hr>
-    <div>result</div>
-    <textarea id="produce-topic-response" rows="10" cols="150"></textarea>
-    <hr>
-    <div>event result</div>
-    <textarea id="event-result" rows="10" cols="150"></textarea>
-    <button onclick="buttonClicked()">Click me</button>
-    <hr>
-    <div>command result</div>
-    <textarea id="command-result" rows="10" cols="150"></textarea> 
+    <h1>TRIGGER EVENT</h1>
+    <div>
+      <input id="device-id" name="device-id" autocomplete="off" type='text'/>
+      <input id="app-id" name="app-id" autocomplete="off" type='text'/>
+      <button onclick="buttonClicked()">command...</button>
+    </div>
+    <div>
+      <br>on command result
+      <textarea id="command-result" rows="10" cols="150"></textarea> 
+    </div>
+    <div>
+      <br>on kafka result
+      <textarea id="kafka-result" rows="10" cols="150"></textarea>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
       const socket = io('http://localhost:3000');
       socket.on('connect', function() {
-        console.log('Connected');
+        console.log('Socket.io BE Connected...');
 
-        socket.emit('events', { test: 'test' ,time:new Date() });
-       /*socket.emit('identity', 0, response =>
+        /*socket.emit('events', { test: 'test' ,time:new Date() });
+        socket.emit('identity', 0, response =>
           console.log('Identity:', response),
-        );*/
+        );
 
         socket.emit('command', { address: 'test-address' ,time:new Date() } );
 
@@ -39,53 +45,49 @@
         socket.emit('testmessage', {"topic":"test-payload",time:new Date()}, (response) => {
             console.log(response)  
         })
-
+        */
       });
-      
+     
+
       function buttonClicked(){
-         console.log('buttonClicked...')
-         socket.emit('testmessage', {"topic":"test-payload-with-buttonClicked",time:new Date()}, (response) => {
-            console.log(response)  
-          })
+        var deviceID = document.getElementById('device-id').value;
+        var appID = document.getElementById('app-id').value;
+        const payloadFE = {
+          "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
+          "command": "mfaf.createDeliveryAddress", // kafka topic 
+          "value" : {//"payload for produce kafka" 
+              "session-id": "abc1234",
+              "invoke-id":"inv-1",
+              "address":"99/99 Chatuchark Bangkok"
+          },
+          "modifytime":new Date()
+        }
+
+        socket.emit('command', payloadFE, (ack) => {
+            console.log(ack)  
+        })
 			 }
 
-       
+      //fe handler on 'event'
+      socket.on('command-result', function(msg) {
+        var item = document.getElementById('command-result');
+        item.innerText = msg; 
+      });
+
+      //fe handler on 'event'
+      socket.on('kafka-result', function(msg) {
+        var item = document.getElementById('kafka-result');
+        item.innerText = msg; 
+      });
 
       socket.on('exception', function(data) {
         console.log('event', data);
       });
+
       socket.on('disconnect', function() {
         console.log('Disconnected');
       });
-    /*var form = document.getElementById('form');
-    var topic = document.getElementById('topic');
-    var data = document.getElementById('data');
-        
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (topic.value) {
-            //socket.emit('produce topic',"{topic:"+topic.value+",data:"+data.value+"}");
-            topic.value = '';
-            data.value = '';
-        }
-        
-    });
-*/
-    socket.on('produce-topic-response', function(msg) {
-        var item = document.getElementById('produce-topic-response');
-        item.innerText = msg; 
-    });
-
-    socket.on('command-response', function(msg) {
-        var item = document.getElementById('command-result');
-        item.innerText = msg; 
-    });
-
-
-    socket.on('events', function(msg) {
-        var item = document.getElementById('event-result');
-        item.innerText = msg; 
-    });
+    
     </script>
 </body>
 

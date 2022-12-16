@@ -17,12 +17,7 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-
-  produceTomeSource(): string {
-    this.client.emit('tome_source','[REST API Produce tome_source] hello 1234 !@#$ ...')
-    return 'Hello World!';
-  }
-
+ 
   produceTopic(topic: string,data:string) {
     this.client.emit(topic,data);
   }

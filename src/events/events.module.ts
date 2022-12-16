@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
 import { logLevel } from 'kafkajs';
-import { EventsGateway } from './events.gateway';
+import { EventsGateway } from './events.gateway'; 
 
 const kafkaOptions: KafkaOptions = {
  
@@ -21,12 +21,12 @@ const kafkaOptions: KafkaOptions = {
       },
       producerOnlyMode: true,
       consumer: {
-        groupId: '2',
+        groupId: 'mobile-backend',
         allowAutoTopicCreation: true,
       },
     }
   };
-
+  
 @Module({
     imports: [ClientsModule.register([
         {
@@ -34,6 +34,6 @@ const kafkaOptions: KafkaOptions = {
           ...kafkaOptions,
         },
       ])],
-    providers: [EventsGateway]
+    providers: [EventsGateway],
 })
 export class EventsModule {}

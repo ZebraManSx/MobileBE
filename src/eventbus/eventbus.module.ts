@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
-import { logLevel } from '@nestjs/microservices/external/kafka.interface';
+import { logLevel } from '@nestjs/microservices/external/kafka.interface'; 
 import { EventbusController } from './eventbus.controller';
 
 const kafkaOptions: KafkaOptions = {
@@ -21,7 +21,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: '2',
+      groupId: 'mobile-backend',
       allowAutoTopicCreation: true,
     },
   }
@@ -33,7 +33,8 @@ const kafkaOptions: KafkaOptions = {
       name: 'EQX_EVENT_BUS_KAFKA_CLIENT',
       ...kafkaOptions,
     },
-  ])],
-  controllers: [EventbusController]
+  ])
+  ],
+  controllers: [EventbusController], 
 })
 export class EventbusModule {}

@@ -12,12 +12,6 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post("/api/produce/tome_source")
-  produceTomeSource(): string {
-    console.log('invoke produceTomeSource...')
-    return this.appService.produceTomeSource();
-  }
-
   @Get("/produce-topic") 
   viewTopic(@Req() req: Request, @Res() res: Response) { 
     res.sendFile(join(__dirname, '/views/produce-topic.html'));

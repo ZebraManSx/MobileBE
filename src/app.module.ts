@@ -6,6 +6,7 @@ import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
 //import { ServeStaticModule } from '@nestjs/serve-static';
 //import { join } from 'path';
 import { EventsModule } from './events/events.module'; 
+import { WebSocketModule } from './web-socket/web-socket.module';
 
 const kafkaOptions: KafkaOptions = {
  
@@ -24,7 +25,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: '2',
+      groupId: 'mobile-backend',
       allowAutoTopicCreation: true,
     },
   }
@@ -39,9 +40,8 @@ const kafkaOptions: KafkaOptions = {
       },
       
     ]),
-     
+    WebSocketModule,
     EventbusModule,
-     
     EventsModule],
   controllers: [AppController],
   providers: [AppService],

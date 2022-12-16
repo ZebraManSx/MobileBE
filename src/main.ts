@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { KafkaOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
-import { join } from 'path';
+//import { join } from 'path';
 
 const kafkaOptions: KafkaOptions = {
   transport: Transport.KAFKA,
