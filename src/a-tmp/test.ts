@@ -9,3 +9,21 @@ aa.set(key,client);
 
 
 console.log(aa)
+
+body["event"] = "mfaf.createDeliveryAddress";
+
+
+console.log(body)
+
+
+
+var mypromise = new Promise((resolve, reject) => {
+    console.log("Demo to show promise in Typescript !!");
+    
+    resolve(100);
+});
+mypromise.then((val:any) => val + 200)
+.then((val)=>{
+    console.log(val)
+})
+    

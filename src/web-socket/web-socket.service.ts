@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { rejects } from 'assert';
+import { resolve } from 'path';
 import { Server } from 'socket.io';
+import { resourceLimits } from 'worker_threads';
 
 @Injectable()
 export class WebSocketService {
@@ -7,25 +10,29 @@ export class WebSocketService {
   
   private socketData = null;
   
-  public pushSocketData(key: string,value:String){
+  public async pushSocketData(key: string,value:String){
     if(this.socketData==null){
       this.socketData = new Map();
     }
-    this.socketData.set(key,value);
+    await this.socketData.set(key,value);
+    console.log(`[store] pushSocketData ${key} = ${value} done.`)
   }
 
-  public getSocketData(key: string): string{
-    if(this.socketData==null){
-      return null;
-    }
-    if(this.socketData.has(key)){
-      return this.socketData.get(key);
-    }else{
-      return null;
-    }
+  public async getSocketData(key: string): Promise<string>{
+    return new Promise((resolve,reject)=>{
+        if(!this.socketData){
+          reject('store is null...')
+        }else{
+          if(this.socketData.has(key)){
+            resolve(this.socketData.get(key))
+          }else{
+            reject(`key ${key} in store not found...`)
+          }
+        }
+    });
   }
 
-  public deleteSocketData(key: string){
+  public async deleteSocketData(key: string){
     if(this.socketData.has(key)){
       return this.socketData.delete(key);
     }

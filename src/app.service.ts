@@ -19,6 +19,7 @@ export class AppService {
   }
  
   produceTopic(topic: string,data:string) {
+    console.log(`topic is :[${topic}] ,data is : [${data}]`)
     this.client.emit(topic,data);
   }
 }

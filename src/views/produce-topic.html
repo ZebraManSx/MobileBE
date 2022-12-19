@@ -29,7 +29,7 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io('https://websocket-demo-poc.adldigitalservice.com/'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
+      const socket = io('http://localhost:3000'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
       socket.on('connect', function() {
         console.log('Socket.io Mobile-BE Connected...');
 

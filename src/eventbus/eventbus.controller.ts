@@ -24,10 +24,24 @@ export class EventbusController {
     this.logger.log('[on consume topic] {@tome_source} event-based received message ===> [' + JSON.stringify(data)+"]");
 
     console.log(`[on consume topic] {@tome_source} get by key is : ${data["key"]}`);
-    const clientID = this.event.getSocketData(data["key"]);
-    console.log(`[on consume topic] {@tome_source} got clientID is : ${clientID}`);
-    this.event.server.to(clientID).emit('event',JSON.stringify(data));
+    
+    const store = this.event.getSocketData(data["key"]);
+    store.then((clientID)=>{
+      console.log(`[on consume topic] {@tome_source} got clientID is : ${clientID}`);
 
+      const obj = data; 
+      obj["event"] = "source_tomed";
+
+      console.log(`[on consume topic] {@tome_source} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
+      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
+
+      console.log(`[on consume topic] {@tome_source} ======================= finish [${clientID}]=======================`)
+    }).catch((error)=>{
+      console.log(`get clientID error ${error}`)
+    });
+
+
+   
     //remove...
     //this.event.deleteSocketData(data["key"]);
     //console.log(`[on consume topic] {@tome_source} [store] remove by key is : ${data["key"]} done`);
@@ -39,29 +53,49 @@ export class EventbusController {
   }
 
   
-  @EventPattern('mfaf.createDeliveryAddress')
-  handleMFAFCreateDeliveryAddress(@Payload() data: any, @Ctx() context: KafkaContext) {
-    this.logger.log('[on consume topic] {@mfaf.createDeliveryAddress} event-based received message ===> [' + JSON.stringify(data)+"]");
+  @EventPattern('mfaf.deliveryAddressCreated')
+  handleMFAFDeliveryAddressCreated(@Payload() data: any, @Ctx() context: KafkaContext) {
+    this.logger.log('[on consume topic] {@mfaf.deliveryAddressCreated} event-based received message ===> [' + JSON.stringify(data)+"]");
 
-    console.log(`[on consume topic] {@mfaf.createDeliveryAddress} [store] get clientID by key is : ${data["key"]}`);
-    const clientID = this.event.getSocketData(data["key"]);
-    console.log(`[on consume topic] {@mfaf.createDeliveryAddress} [store] clientID is : ${clientID}`);
-    this.event.server.to(clientID).emit('event',JSON.stringify(data));
+    console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} [store] get clientID by key is : ${data["key"]}`);
 
+    const store = this.event.getSocketData(data["key"]);
+    store.then((clientID)=>{
+    //const clientID = this.event.getSocketData(data["key"]);
+      console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} [store] clientID is : ${clientID}`);
+
+      const obj = data; 
+      obj["event"] = "mfaf.deliveryAddressCreated";
+
+      console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
+      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
+    }).catch((error)=>{
+      console.log(`get clientID error ${error}`)
+    });
     //remove...
     //this.event.deleteSocketData(data["key"]);
     //console.log(`[on consume topic] {@mfaf.createDeliveryAddress} [store] remove by key is : ${data["key"]} done`);
   }
 
-  @EventPattern('mfaf.placeOrder')
-  handleMFAFPlaceOrder(@Payload() data: any, @Ctx() context: KafkaContext) {
-    this.logger.log('[on consume topic] {@mfaf.placeOrder} event-based received message ===> [' + JSON.stringify(data)+"]");
+  @EventPattern('mfaf.orderPlaced')
+  handleMFAFOrderPlaced(@Payload() data: any, @Ctx() context: KafkaContext) {
+    this.logger.log('[on consume topic] {@mfaf.orderPlaced} event-based received message ===> [' + JSON.stringify(data)+"]");
 
-    console.log(`[on consume topic] {@mfaf.placeOrder}[store] get clientID by key is : ${data["key"]}`);
-    const clientID = this.event.getSocketData(data["key"]);
-    console.log(`[on consume topic] {@mfaf.placeOrder} [store] clientID is : ${clientID}`);
-    this.event.server.to(clientID).emit('event',JSON.stringify(data));
+    console.log(`[on consume topic] {@mfaf.orderPlaced}[store] get clientID by key is : ${data["key"]}`);
+    const store = this.event.getSocketData(data["key"]);
+    store.then((clientID)=>{
+    //const clientID = this.event.getSocketData(data["key"]);
+      console.log(`[on consume topic] {@mfaf.orderPlaced} [store] clientID is : ${clientID}`);
 
+      const obj = data; 
+      obj["event"] = "mfaf.orderPlaced";
+
+      console.log(`[on consume topic] {@mfaf.orderPlaced} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
+      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
+    }).catch((error)=>{
+      console.log(`get clientID error ${error}`)
+    });
+    
     //remove...
     //this.event.deleteSocketData(data["key"]);
     //console.log(`[on consume topic] {@mfaf.placeOrder} [store] remove by key is : ${data["key"]} done`);
