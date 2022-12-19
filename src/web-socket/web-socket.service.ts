@@ -24,5 +24,11 @@ export class WebSocketService {
       return null;
     }
   }
+
+  public deleteSocketData(key: string){
+    if(this.socketData.has(key)){
+      return this.socketData.delete(key);
+    }
+  }
  
 }

@@ -15,4 +15,4 @@ RUN npm install --verbose
 RUN ls -l
 
 
-CMD [ "npm", "start" ]
+CMD ["node", "main"]

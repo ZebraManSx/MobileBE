@@ -40,20 +40,24 @@ export class EventsGateway implements OnGatewayInit {
   onCommand(@ConnectedSocket() client: any, @MessageBody() body: any){
     console.log("[on command] data is : "+JSON.stringify(body))
     console.log("[on command] client is : "+ client.id)
-    const topic = "mfaf.createDeliveryAddress";
-    this.client.emit("tome_source",JSON.stringify(body))
-    console.log("[on command] produce topic tome_source done")
+    const topic = body["command"]//"mfaf.createDeliveryAddress";
+    console.log(`[on command] topic is : ${topic}`)
+    this.client.emit(topic,JSON.stringify(body))
+    console.log(`[on command] produce topic ${topic} done`)
+
     const commandResult = {
       "clientid" : client.id,
       "topic" : topic,
       "payload" : body
     }
 
-    console.log(`push key is : ${body["key"]}`) 
-    console.log(`with clientID is : ${client.id}`)
+    console.log(`[store] push key is : ${body["key"]}`) 
+    console.log(`[store] with clientID is : ${client.id}`)
     this.webSocketService.pushSocketData(body["key"],client.id);
    
+    
     this.server.to(client.id).emit('command-result',JSON.stringify(commandResult));
+
     const ack = {"result":"act"}
     return ack;
   }
@@ -61,6 +65,8 @@ export class EventsGateway implements OnGatewayInit {
   @SubscribeMessage('query')
   onQuery(@ConnectedSocket() client: any, @MessageBody() body: any){
     //TBC
+    const ack = {"result":"act","todo":"none"}
+    return ack;
   }
  
 }

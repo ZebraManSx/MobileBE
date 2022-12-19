@@ -1,0 +1,32 @@
+<script>
+    const socket = io('https://websocket-demo-poc.adldigitalservice.com/');  
+    socket.on('connect', function() {
+      console.log('Socket.io Mobile-BE Connected...');
+	});
+	  
+	  
+	function buttonClicked(){
+        var deviceID = document.getElementById('device-id').value;
+        var appID = document.getElementById('app-id').value;
+        const payloadFE = {
+          "key": "deviceid-"+deviceID+"_appid-"+appID, 	// deviceid+appid
+          "command": "mfaf.createDeliveryAddress",		//"mfaf.orderPlace", // kafka topic 
+          "value" : {									//"payload for produce kafka" 
+              "session-id": "abc1234",
+              "invoke-id":"inv-1",
+              "address":"99/99 Chatuchark Bangkok"
+          },
+          "modifytime":new Date()
+        }
+
+        socket.emit('command', payloadFE, (ack) => {
+            console.log(ack)  
+        })
+	}
+	
+	//fe handler on 'event'
+	socket.on('event', function(msg) {
+	   //msg from be&kafka consumer
+	});
+	
+</script>

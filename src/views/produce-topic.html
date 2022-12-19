@@ -22,16 +22,16 @@
       <textarea id="command-result" rows="10" cols="150"></textarea> 
     </div>
     <div>
-      <br>on kafka result
-      <textarea id="kafka-result" rows="10" cols="150"></textarea>
+      <br>on event result
+      <textarea id="event-result" rows="10" cols="150"></textarea>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io('http://localhost:3000');
+      const socket = io('https://websocket-demo-poc.adldigitalservice.com/'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
       socket.on('connect', function() {
-        console.log('Socket.io BE Connected...');
+        console.log('Socket.io Mobile-BE Connected...');
 
         /*socket.emit('events', { test: 'test' ,time:new Date() });
         socket.emit('identity', 0, response =>
@@ -54,7 +54,7 @@
         var appID = document.getElementById('app-id').value;
         const payloadFE = {
           "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
-          "command": "mfaf.createDeliveryAddress", // kafka topic 
+          "command": "tome_source",//"mfaf.createDeliveryAddress", // kafka topic 
           "value" : {//"payload for produce kafka" 
               "session-id": "abc1234",
               "invoke-id":"inv-1",
@@ -66,17 +66,17 @@
         socket.emit('command', payloadFE, (ack) => {
             console.log(ack)  
         })
-			 }
+			}
 
       //fe handler on 'event'
       socket.on('command-result', function(msg) {
         var item = document.getElementById('command-result');
         item.innerText = msg; 
       });
-
+ 
       //fe handler on 'event'
-      socket.on('kafka-result', function(msg) {
-        var item = document.getElementById('kafka-result');
+      socket.on('event', function(msg) {
+        var item = document.getElementById('event-result');
         item.innerText = msg; 
       });
 
