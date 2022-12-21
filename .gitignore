@@ -103,6 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# 
+#package file
 *.zip
 *.7z

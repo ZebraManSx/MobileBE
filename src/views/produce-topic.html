@@ -13,8 +13,9 @@
     <hr>
     <h1>TRIGGER EVENT</h1>
     <div>
-      <input id="device-id" name="device-id" autocomplete="off" type='text'/>
-      <input id="app-id" name="app-id" autocomplete="off" type='text'/>
+      deviceID<input id="device-id" name="device-id" autocomplete="off" type='text'/>
+      appID<input id="app-id" name="app-id" autocomplete="off" type='text'/>
+      topicID<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="50"/>
       <button onclick="buttonClicked()">command...</button>
     </div>
     <div>
@@ -29,7 +30,7 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io('http://localhost:3000'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
+      const socket = io('https://websocket-demo-poc.adldigitalservice.com/'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
       socket.on('connect', function() {
         console.log('Socket.io Mobile-BE Connected...');
 
@@ -52,9 +53,10 @@
       function buttonClicked(){
         var deviceID = document.getElementById('device-id').value;
         var appID = document.getElementById('app-id').value;
+        var topicID = document.getElementById('topic-id').value;
         const payloadFE = {
           "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
-          "command": "tome_source",//"mfaf.createDeliveryAddress", // kafka topic 
+          "command": topicID, // kafka topic 
           "value" : {//"payload for produce kafka" 
               "session-id": "abc1234",
               "invoke-id":"inv-1",

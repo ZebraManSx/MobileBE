@@ -9,8 +9,8 @@ https://portal.azure.com/#home
 
 # on my vm for build images and push image to gitlab 
 
-$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.3.0 .
-$sudo docker run --name=mobile-be --rm -it -d -p 3000:3000 mobile-be:1.3.0
+$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.5.0 .
+$sudo docker run --name=mobile-be --rm -it -d -p 3000:3000 mobile-be:1.5.0
 
 root@ueransim:~# docker login registry.gitlab.com
 Username: iamzebraman
@@ -20,7 +20,7 @@ Configure a credential helper to remove this warning. See
 https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
 Login Succeeded
-root@ueransim:~# docker tag mobile-be:1.3.0  registry.gitlab.com/next-db-community/next-icd/socketiodemo:1.3.0
+root@ueransim:~# docker tag mobile-be:1.5.0  registry.gitlab.com/next-db-community/next-icd/socketiodemo:1.5.0
 root@ueransim:~# docker push registry.gitlab.com/next-db-community/next-icd/socketiodemo:1.3.0
 
 

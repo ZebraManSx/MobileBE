@@ -33,11 +33,12 @@ export class EventbusController {
       obj["event"] = "source_tomed";
 
       console.log(`[on consume topic] {@tome_source} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
-      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
+      this.event.server.to(clientID).emit('event',obj);
 
-      console.log(`[on consume topic] {@tome_source} ======================= finish [${clientID}]=======================`)
-    }).catch((error)=>{
-      console.log(`get clientID error ${error}`)
+      console.log(`[on consume topic] {@tome_source} ======================= finish transaction [${clientID}] (emit with Object) =======================`)
+    }).catch((error)=>{ 
+      console.log(`[on consume topic] {@tome_source} ======================= get clientID error ${error} =======================`)
+ 
     });
 
 
@@ -61,16 +62,18 @@ export class EventbusController {
 
     const store = this.event.getSocketData(data["key"]);
     store.then((clientID)=>{
-    //const clientID = this.event.getSocketData(data["key"]);
+      //const clientID = this.event.getSocketData(data["key"]);
       console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} [store] clientID is : ${clientID}`);
 
       const obj = data; 
       obj["event"] = "mfaf.deliveryAddressCreated";
 
       console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
-      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
-    }).catch((error)=>{
-      console.log(`get clientID error ${error}`)
+      this.event.server.to(clientID).emit('event',obj);
+      console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} ======================= finish transaction [${clientID}] (emit with Object) =======================`)
+    
+    }).catch((error)=>{ 
+      console.log(`[on consume topic] {@mfaf.deliveryAddressCreated} ======================= get clientID error ${error} =======================`)
     });
     //remove...
     //this.event.deleteSocketData(data["key"]);
@@ -84,16 +87,19 @@ export class EventbusController {
     console.log(`[on consume topic] {@mfaf.orderPlaced}[store] get clientID by key is : ${data["key"]}`);
     const store = this.event.getSocketData(data["key"]);
     store.then((clientID)=>{
-    //const clientID = this.event.getSocketData(data["key"]);
+      //const clientID = this.event.getSocketData(data["key"]);
       console.log(`[on consume topic] {@mfaf.orderPlaced} [store] clientID is : ${clientID}`);
 
       const obj = data; 
       obj["event"] = "mfaf.orderPlaced";
 
       console.log(`[on consume topic] {@mfaf.orderPlaced} [store] new data (add event) to obj is : ${JSON.stringify(obj)}`);
-      this.event.server.to(clientID).emit('event',JSON.stringify(obj));
-    }).catch((error)=>{
-      console.log(`get clientID error ${error}`)
+      this.event.server.to(clientID).emit('event',obj);
+      console.log(`[on consume topic] {@mfaf.orderPlaced} ======================= finish transaction [${clientID}] (emit with Object) =======================`)
+  
+    }).catch((error)=>{ 
+      console.log(`[on consume topic] {@mfaf.orderPlaced} ======================= get clientID error ${error} =======================`)
+  
     });
     
     //remove...

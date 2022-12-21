@@ -38,7 +38,7 @@ export class EventsGateway implements OnGatewayInit {
 
   @SubscribeMessage('command')
   onCommand(@ConnectedSocket() client: any, @MessageBody() body: any){
-    console.log(`[on command] ======================= start [${client.id}]=======================`)
+    console.log(`[on command] ======================= start transaction [${client.id}]=======================`)
     console.log("[on command] data is : "+JSON.stringify(body))
     console.log("[on command] client is : "+ client.id)
     const topic = body["command"]//"mfaf.createDeliveryAddress";

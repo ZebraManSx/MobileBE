@@ -20,7 +20,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: '2',
+      groupId: 'mobile-backend',
       allowAutoTopicCreation: true,
     },
   }
