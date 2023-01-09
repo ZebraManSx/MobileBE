@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Produce Topic On Clound [Stg- Environment]</title>
+    <title>Produce Topic On Localhost [Dev- Environment]</title>
 </head>
 <style>
   h1 {
@@ -9,7 +9,7 @@
   }
 </style>
 <body>
-    <h1>On Clound [Stg- Environment]</h1>
+    <h1>On Localhost [Dev- Environment]</h1>
     <h2>PRODUCE TOPIC</h2>
     <form id="form" action="/api/produce/topic" method="POST" >
         <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text'/>
@@ -19,9 +19,11 @@
     <hr>
     <h1>TRIGGER EVENT</h1>
     <div>
-      deviceID<input id="device-id" name="device-id" autocomplete="off" type='text'/>
-      appID<input id="app-id" name="app-id" autocomplete="off" type='text'/>
-      topicID<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="50"/>
+      url:<input id="url" name="url" autocomplete="off" type='text' size="150"/>
+      <hr>
+      deviceID:<input id="device-id" name="device-id" autocomplete="off" type='text'/>
+      appID:<input id="app-id" name="app-id" autocomplete="off" type='text'/>
+      topicID:<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="50"/>
       <button onclick="buttonClicked()">command...</button>
     </div>
     <div>
@@ -36,7 +38,8 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io('https://websocket-demo-poc.adldigitalservice.com/'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
+      const url = document.getElementById("url").value;
+      const socket = io('http://'+url); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
       socket.on('connect', function() {
         console.log('Socket.io Mobile-BE Connected...');
 

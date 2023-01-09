@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Server } from 'socket.io';
 
 @Injectable()
 export class WebSocketService {
+  private readonly logger = new Logger(WebSocketService.name);
   public server: Server | undefined;
   
   private socketData = null;
@@ -12,7 +13,7 @@ export class WebSocketService {
       this.socketData = new Map();
     }
     await this.socketData.set(key,value);
-    console.log(`[store] pushSocketData() ${key} = ${value}`)
+    this.logger.log(`[store] pushSocketData() ${key} = ${value}`)
   }
 
   public async getSocketData(key: string): Promise<string>{

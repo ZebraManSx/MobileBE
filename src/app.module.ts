@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventbusModule } from './eventbus/eventbus.module';
@@ -7,6 +7,8 @@ import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
 //import { join } from 'path';
 import { EventsModule } from './events/events.module'; 
 import { WebSocketModule } from './web-socket/web-socket.module';
+
+import  { redisStore } from 'cache-manager-redis-store';
 
 const kafkaOptions: KafkaOptions = {
  
@@ -25,7 +27,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: 'mobile-backend',
+      groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
       allowAutoTopicCreation: true,
     },
   }
@@ -38,8 +40,16 @@ const kafkaOptions: KafkaOptions = {
         name: 'EQX_EVENT_BUS_KAFKA_CLIENT',
         ...kafkaOptions,
       },
-      
     ]),
+    CacheModule.register({
+      isGlobal: true,
+      // @ts-ignore
+      store: redisStore,
+      socket: {
+        host: '192.168.1.152',
+        port: 6379,
+      },
+    }),
     WebSocketModule,
     EventbusModule,
     EventsModule],

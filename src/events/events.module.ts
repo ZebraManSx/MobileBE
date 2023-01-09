@@ -1,7 +1,7 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
 import { logLevel } from 'kafkajs';
-import { EventsGateway } from './events.gateway'; 
+import { EventsGateway } from './events.gateway';  
 
 const kafkaOptions: KafkaOptions = {
  
@@ -21,7 +21,7 @@ const kafkaOptions: KafkaOptions = {
       },
       producerOnlyMode: true,
       consumer: {
-        groupId: 'mobile-backend',
+        groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
         allowAutoTopicCreation: true,
       },
     }
@@ -33,7 +33,8 @@ const kafkaOptions: KafkaOptions = {
           name: 'EQX_EVENT_BUS_KAFKA_CLIENT',
           ...kafkaOptions,
         },
-      ])],
+      ]),
+    ],
     providers: [EventsGateway],
 })
 export class EventsModule {}

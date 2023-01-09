@@ -8,9 +8,17 @@ https://portal.azure.com/#home
 
 
 # on my vm for build images and push image to gitlab 
+# build and zip 
+    |--- npm run z
+# copy to myVm and extract
+    |--- 7za x dist.7z
 
-$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.5.0 .
-$sudo docker run --name=mobile-be --rm -it -d -p 3000:3000 mobile-be:1.5.0
+$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.6.0 .
+
+$sudo docker run --env "BE_INSTANCE=dev1" --name=mobile-be-dev1 --rm -it -d -p 3000:3000 mobile-be:1.6.0
+$sudo docker run --env "BE_INSTANCE=dev2" --name=mobile-be-dev2 --rm -it -d -p 3001:3000 mobile-be:1.6.0
+
+# remove -d if want see log when error 
 
 root@ueransim:~# docker login registry.gitlab.com
 Username: iamzebraman

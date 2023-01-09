@@ -1,4 +1,4 @@
-FROM  node:14.1.0-alpine
+FROM node:18-alpine
 
 COPY . .
 
@@ -12,7 +12,6 @@ RUN node -v
 
 RUN npm install --verbose
 
-RUN ls -l
-
+RUN ls -l 
 
 CMD ["node", "main"]

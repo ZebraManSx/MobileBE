@@ -21,7 +21,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: 'mobile-backend',
+      groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
       allowAutoTopicCreation: true,
     },
   }

@@ -7,14 +7,25 @@ import { Response, Request } from 'express';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+
   @Get()
-  getHello(): string {
+  getHello() {
     return this.appService.getHello();
+  }
+
+  @Get("/env-info")
+  getENVInformations() {
+    return this.appService.getENVInformations();
   }
 
   @Get("/produce-topic") 
   viewTopic(@Req() req: Request, @Res() res: Response) { 
     res.sendFile(join(__dirname, '/views/produce-topic.html'));
+  }
+
+  @Get("/produce-topic-dev") 
+  viewTopicDev(@Req() req: Request, @Res() res: Response) { 
+    res.sendFile(join(__dirname, '/views/produce-topic-dev.html'));
   }
 
   @Post("/api/produce/topic") 
