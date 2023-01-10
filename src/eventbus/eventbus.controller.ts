@@ -23,12 +23,17 @@ export class EventbusController {
   @EventPattern('tome_source')
   handle(@Payload() data: any, @Ctx() context: KafkaContext) {
     this.logger.log('[on consume topic] {@tome_source} event-based received message ===> [' + JSON.stringify(data)+"]");
+
+    const topic = "tome_sink"
+    this.logger.log(`[on consume topic] {@tome_source} emit message to topic :${topic} ===>  + JSON.stringify(${data})`);
+    this.client.emit(topic,JSON.stringify(data))
+    this.logger.log(`[on command topic] {@tome_source} produce topic ${topic} done`)
+    /*
     const cacheMng =   this.cacheManager.get(data["key"]) 
     cacheMng.then((socketId)=>{
       this.logger.log(`[on consume topic] {@tome_source} [radis] get socketId object by ${data["key"]} ,result is : ${JSON.stringify(socketId)}`);
       const clientid = socketId["socketid"];
       this.logger.log(`[on consume topic] {@tome_source} [radis] get clientid is : ${clientid}`);
-
 
       const obj = data; 
       obj["event"] = "source_tomed";
@@ -43,7 +48,7 @@ export class EventbusController {
     })
       
      
-      /*
+      
     const store = this.event.getSocketData(data["key"]);
     store.then((clientID)=>{
       this.logger.log(`[on consume topic] {@tome_source} got clientID is : ${clientID}`);
@@ -69,6 +74,25 @@ export class EventbusController {
   @EventPattern('tome_sink')
   handleSink(@Payload() data: any, @Ctx() context: KafkaContext) {
     this.logger.log('[on consume topic] {@tome_sink} event-based received message ===> [' + JSON.stringify(data)+"]");
+
+    const cacheMng =   this.cacheManager.get(data["key"]) 
+    cacheMng.then((socketId)=>{
+      this.logger.log(`[on consume topic] {@tome_sink} [radis] get socketId object by ${data["key"]} ,result is : ${JSON.stringify(socketId)}`);
+      const clientid = socketId["socketid"];
+      this.logger.log(`[on consume topic] {@tome_sink} [radis] get clientid is : ${clientid}`);
+
+      const obj = data; 
+      obj["event"] = "sink_tomed";
+      obj["modify_instance"] = process.env.BE_INSTANCE;
+      obj["modifytime"] = new Date();
+
+      this.logger.log(`[on consume topic] {@tome_sink} new data (add event) to obj is : ${JSON.stringify(obj)}`);
+      this.event.server.to(clientid).emit('event',obj);
+
+      this.logger.log(`[on consume topic] {@tome_sink} ======================= finish transaction [${clientid}] (emit with Object) =======================`);
+    }).catch((error)=>{
+      this.logger.log(`[on consume topic] {@tome_sink} got error is : ${error}`);
+    })
   }
 
   

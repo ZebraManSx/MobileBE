@@ -5,8 +5,13 @@ npx nest g module events --no-spec
 
   
 https://portal.azure.com/#home
-
-
+# docker install on myVM
+    |--- sudo apt-get remove docker docker-engine docker.io
+         sudo apt-get update
+         sudo apt install docker.io
+# add user
+    |--- sudo usermod -aG docker surasak 
+    
 # on my vm for build images and push image to gitlab 
 # build and zip 
     |--- npm run z

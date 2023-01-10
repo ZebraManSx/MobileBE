@@ -46,7 +46,7 @@ const kafkaOptions: KafkaOptions = {
       // @ts-ignore
       store: redisStore,
       socket: {
-        host: '192.168.1.152',
+        host: '192.168.1.150',
         port: 6379,
       },
     }),

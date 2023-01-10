@@ -22,12 +22,7 @@ export class AppController {
   viewTopic(@Req() req: Request, @Res() res: Response) { 
     res.sendFile(join(__dirname, '/views/produce-topic.html'));
   }
-
-  @Get("/produce-topic-dev") 
-  viewTopicDev(@Req() req: Request, @Res() res: Response) { 
-    res.sendFile(join(__dirname, '/views/produce-topic-dev.html'));
-  }
-
+ 
   @Post("/api/produce/topic") 
   produceTopic(@Body() body,@Req() req: Request, @Res() res: Response) { 
     console.log("[API]Produce Topic body ===>"+JSON.stringify(body))

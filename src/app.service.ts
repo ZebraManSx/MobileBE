@@ -33,9 +33,4 @@ export class AppService {
     this.client.emit(topic,data);
   }
 
-  produceTopicDev(topic: string,data:string) {
-    this.logger.log(`topic is :[${topic}] ,data is : [${data}]`)
-    this.client.emit(topic,data);
-  }
-
 }

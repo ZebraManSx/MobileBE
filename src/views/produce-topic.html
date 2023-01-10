@@ -1,42 +1,63 @@
 <html>
 
 <head>
-    <title>Produce Topic On Clound [Stg- Environment]</title>
+    <title>Produce Topic</title>
 </head>
 <style>
+  table, th, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  }
   h1 {
     text-align: center;
   }
 </style>
-<body>
-    <h1>On Clound [Stg- Environment]</h1>
-    <h2>PRODUCE TOPIC</h2>
+<body> 
+    <h1>PRODUCE TOPIC API</h1>
     <form id="form" action="/api/produce/topic" method="POST" >
-        <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text'/>
-        <div>data</div><textarea id="data" name="data" autocomplete="off" rows="10" cols="150"></textarea>
+        <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text' value="tome_source"/>
+        <div>data</div><textarea id="data" name="data" autocomplete="off" rows="5" cols="100"></textarea>
         <button type="submit">Emit</button>
     </form> 
     <hr>
     <h1>TRIGGER EVENT</h1>
-    <div>
-      deviceID<input id="device-id" name="device-id" autocomplete="off" type='text'/>
-      appID<input id="app-id" name="app-id" autocomplete="off" type='text'/>
-      topicID<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="50"/>
-      <button onclick="buttonClicked()">command...</button>
-    </div>
-    <div>
-      <br>on command result
-      <textarea id="command-result" rows="10" cols="150"></textarea> 
-    </div>
-    <div>
-      <br>on event result
-      <textarea id="event-result" rows="10" cols="150"></textarea>
-    </div>
-
+    <table><tr>
+    <td>
+      <div>
+        <table>
+          <tr><td colspan="4">url:<input id="url" name="url" autocomplete="off" type='text' size="100"/></td></tr>
+          <tr>
+            <td><button onclick="buttonLocalhostClicked()">localhost...</button></td>
+            <td><button onclick="buttonMyVMClicked()">myVM...</button></td>
+            <td><button onclick="buttonMyVMLoadbalancerClicked()">myVM-Loadbalancer...</button></td>
+            <td><button onclick="buttonPRODClicked()">PROD...</button></td>
+          </tr>
+        </table>
+        <hr>
+        deviceID:<input id="device-id" name="device-id" autocomplete="off" type='text'/>
+        appID:<input id="app-id" name="app-id" autocomplete="off" type='text'/>
+        topicID:<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="40" value="tome_source"/>
+        <button onclick="buttonClicked()">command...</button>
+        <button onclick="buttonRandomClicked()">random key...</button>
+      </div>
+    </td>
+    <td>
+      <div>
+        <h2>on command result</h2>
+        <textarea id="command-result" rows="5" cols="100"></textarea> 
+      </div>
+      <hr>
+      <div>
+        <h2>on event result</h2>
+        <textarea id="event-result" rows="5" cols="100"></textarea>
+      </div>
+    </td>
+    </tr></table>
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const socket = io('https://websocket-demo-poc.adldigitalservice.com/'); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
+      const url = document.getElementById("url").value;
+      const socket = io(url); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
       socket.on('connect', function() {
         console.log('Socket.io Mobile-BE Connected...');
 
@@ -56,10 +77,29 @@
       });
      
 
+      function buttonLocalhostClicked(){
+        document.getElementById('url').value = 'http://localhost:3000';
+      }
+      function buttonMyVMClicked(){
+        document.getElementById('url').value = 'http://192.168.1.150:3000';
+      }
+      function buttonMyVMLoadbalancerClicked(){
+        document.getElementById('url').value = 'http://192.168.1.150';
+      }
+      function buttonPRODClicked(){
+        document.getElementById('url').value = 'https://websocket-demo-poc.adldigitalservice.com/';
+      }
+
+      function buttonRandomClicked(){
+        document.getElementById('device-id').value = Math.floor(Math.random() * 100) + 1;
+        document.getElementById('app-id').value = Math.floor(Math.random() * 100) + 1;
+      }
+
       function buttonClicked(){
         var deviceID = document.getElementById('device-id').value;
         var appID = document.getElementById('app-id').value;
         var topicID = document.getElementById('topic-id').value;
+
         const payloadFE = {
           "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
           "command": topicID, // kafka topic 
