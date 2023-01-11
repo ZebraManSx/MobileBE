@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventbusModule } from './eventbus/eventbus.module';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
+
 //import { ServeStaticModule } from '@nestjs/serve-static';
 //import { join } from 'path';
 import { EventsModule } from './events/events.module'; 
@@ -13,7 +14,6 @@ import  { redisStore } from 'cache-manager-redis-store';
 const kafkaOptions: KafkaOptions = {
  
   transport: Transport.KAFKA,
-
   options: {
     client: {
       clientId: 'client-demo',
@@ -46,7 +46,8 @@ const kafkaOptions: KafkaOptions = {
       // @ts-ignore
       store: redisStore,
       socket: {
-        host: '192.168.1.150',
+        //host: '192.168.1.150', //at home
+        host : '10.10.0.150', //at office with WIFI 
         port: 6379,
       },
     }),

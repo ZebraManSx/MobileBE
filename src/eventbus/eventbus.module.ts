@@ -6,7 +6,6 @@ import { EventbusController } from './eventbus.controller';
 const kafkaOptions: KafkaOptions = {
  
   transport: Transport.KAFKA,
-
   options: {
     client: {
       clientId: 'client-demo',

@@ -6,7 +6,6 @@ import { EventsGateway } from './events.gateway';
 const kafkaOptions: KafkaOptions = {
  
     transport: Transport.KAFKA,
-  
     options: {
       client: {
         clientId: 'client-demo',

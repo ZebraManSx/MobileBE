@@ -2,7 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Server } from 'socket.io';
 
 @Injectable()
-export class WebSocketService {
+export class WebSocketService { 
+
   private readonly logger = new Logger(WebSocketService.name);
   public server: Server | undefined;
   

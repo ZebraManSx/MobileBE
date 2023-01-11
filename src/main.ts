@@ -6,23 +6,23 @@ import { AppModule } from './app.module';
 
 const kafkaOptions: KafkaOptions = {
   transport: Transport.KAFKA,
-    options: {
-      client: {
-        clientId: 'client-demo',
-        brokers: ['pkc-22z82.japaneast.azure.confluent.cloud:9092'],
-        ssl: true,
-        sasl: {
-          mechanism: 'plain',
-          username: 'I3LJSKCZZFCN3EUE',
-          password: 'yuulhyzCyjgF4YqSQ5fgtWvqSZLoxu2BKvqsX0B0ahH/B9kXswBorfyAdVCPSLr/',
-        }
-      },
-      producerOnlyMode: true,
-      consumer: {
-        groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
-        allowAutoTopicCreation: true,
-      },
+  options: {
+    client: {
+      clientId: 'client-demo',
+      brokers: ['pkc-22z82.japaneast.azure.confluent.cloud:9092'],
+      ssl: true,
+      sasl: {
+        mechanism: 'plain',
+        username: 'I3LJSKCZZFCN3EUE',
+        password: 'yuulhyzCyjgF4YqSQ5fgtWvqSZLoxu2BKvqsX0B0ahH/B9kXswBorfyAdVCPSLr/',
+      }
+    },
+    producerOnlyMode: true,
+    consumer: {
+      groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
+      allowAutoTopicCreation: true,
     }
+  }
 };
  
 async function bootstrap() {

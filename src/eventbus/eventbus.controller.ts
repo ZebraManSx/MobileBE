@@ -19,15 +19,22 @@ export class EventbusController {
     private readonly event: WebSocketService,
     @Inject(CACHE_MANAGER) private readonly cacheManager : Cache
   ) {}
-
+ 
   @EventPattern('tome_source')
   handle(@Payload() data: any, @Ctx() context: KafkaContext) {
     this.logger.log('[on consume topic] {@tome_source} event-based received message ===> [' + JSON.stringify(data)+"]");
 
-    const topic = "tome_sink"
-    this.logger.log(`[on consume topic] {@tome_source} emit message to topic :${topic} ===>  + JSON.stringify(${data})`);
-    this.client.emit(topic,JSON.stringify(data))
-    this.logger.log(`[on command topic] {@tome_source} produce topic ${topic} done`)
+    const isProduceTomeSink = data["isProduceTomeSink"];
+    this.logger.log(`[on command topic] {@tome_source} isProduceTomeSink is : ${isProduceTomeSink}`)
+    if(isProduceTomeSink){
+      const topic = "tome_sink"
+      this.logger.log(`[on consume topic] {@tome_source} emit message to topic :${topic} ===>  + JSON.stringify(${data})`);
+      this.client.emit(topic,JSON.stringify(data))
+      this.logger.log(`[on command topic] {@tome_source} produce topic ${topic} done`)
+    }else{
+      this.logger.log(`[on command topic] {@tome_source} waiting for produce topic : tome_sink from anyone(producer)....`)
+    }
+     
     /*
     const cacheMng =   this.cacheManager.get(data["key"]) 
     cacheMng.then((socketId)=>{
@@ -76,12 +83,13 @@ export class EventbusController {
     this.logger.log('[on consume topic] {@tome_sink} event-based received message ===> [' + JSON.stringify(data)+"]");
 
     const cacheMng =   this.cacheManager.get(data["key"]) 
-    cacheMng.then((socketId)=>{
-      this.logger.log(`[on consume topic] {@tome_sink} [radis] get socketId object by ${data["key"]} ,result is : ${JSON.stringify(socketId)}`);
-      const clientid = socketId["socketid"];
+    cacheMng.then((cacheData)=>{
+      this.logger.log(`[on consume topic] {@tome_sink} [radis] get cacheData by ${data["key"]} ,value is : ${JSON.stringify(cacheData)}`);
+      const clientid = cacheData["socketid"];
       this.logger.log(`[on consume topic] {@tome_sink} [radis] get clientid is : ${clientid}`);
 
       const obj = data; 
+      obj["key"] = cacheData["oldkey"];
       obj["event"] = "sink_tomed";
       obj["modify_instance"] = process.env.BE_INSTANCE;
       obj["modifytime"] = new Date();
@@ -89,7 +97,7 @@ export class EventbusController {
       this.logger.log(`[on consume topic] {@tome_sink} new data (add event) to obj is : ${JSON.stringify(obj)}`);
       this.event.server.to(clientid).emit('event',obj);
 
-      this.logger.log(`[on consume topic] {@tome_sink} ======================= finish transaction [${clientid}] (emit with Object) =======================`);
+      this.logger.log(`[on consume topic] {@tome_sink} ====== finish transaction [${clientid}] (emit with Object) ======`);
     }).catch((error)=>{
       this.logger.log(`[on consume topic] {@tome_sink} got error is : ${error}`);
     })

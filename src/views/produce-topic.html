@@ -15,40 +15,32 @@
 <body> 
     <h1>PRODUCE TOPIC API</h1>
     <form id="form" action="/api/produce/topic" method="POST" >
-        <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text' value="tome_source"/>
+        <div>topic</div><input id="topic" name="topic" autocomplete="off" type='text' value="tome_sink"/>
         <div>data</div><textarea id="data" name="data" autocomplete="off" rows="5" cols="100"></textarea>
         <button type="submit">Emit</button>
     </form> 
     <hr>
     <h1>TRIGGER EVENT</h1>
     <table><tr>
-    <td>
+    <td rowspan="2">
       <div>
-        <table>
-          <tr><td colspan="4">url:<input id="url" name="url" autocomplete="off" type='text' size="100"/></td></tr>
-          <tr>
-            <td><button onclick="buttonLocalhostClicked()">localhost...</button></td>
-            <td><button onclick="buttonMyVMClicked()">myVM...</button></td>
-            <td><button onclick="buttonMyVMLoadbalancerClicked()">myVM-Loadbalancer...</button></td>
-            <td><button onclick="buttonPRODClicked()">PROD...</button></td>
-          </tr>
-        </table>
+        <input type="checkbox" id="isProduceTomeSink" name="isProduceTomeSink"><label for="isProduceTomeSink">todo: send emit for produce tome_sink ?</label>
         <hr>
+        <button onclick="buttonRandomClicked()">random key...</button>
         deviceID:<input id="device-id" name="device-id" autocomplete="off" type='text'/>
         appID:<input id="app-id" name="app-id" autocomplete="off" type='text'/>
         topicID:<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="40" value="tome_source"/>
         <button onclick="buttonClicked()">command...</button>
-        <button onclick="buttonRandomClicked()">random key...</button>
       </div>
     </td>
     <td>
       <div>
-        <h2>on command result</h2>
+        <h2>on command result [fe ---> mobile-be]</h2>
         <textarea id="command-result" rows="5" cols="100"></textarea> 
       </div>
       <hr>
       <div>
-        <h2>on event result</h2>
+        <h2>on event result [mobilebe <--- kafka]</h2>
         <textarea id="event-result" rows="5" cols="100"></textarea>
       </div>
     </td>
@@ -56,15 +48,30 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      const url = document.getElementById("url").value;
-      const socket = io(url); //https://websocket-demo-poc.adldigitalservice.com/ http://localhost:3000
+      //const url = "https://websocket-demo-poc.adldigitalservice.com/";
+      //const url = "http://192.168.1.150";  //vm nginx at home
+      const url = "http://10.10.0.150";  //vm nginx at office
+
+      //const url = "http://192.168.1.39:3000";  //localhost at home
+      //const url = "http://10.10.0.167:3000";  //localhost at office with wifi
+
+      const socket = io(url,{
+        extraHeaders: {
+          apptype: "web-browser-firefox",
+          appins : "ins1"
+        },
+        auth : {
+          token : "uuu@ppp"
+        }
+      }); 
       socket.on('connect', function() {
-        console.log('Socket.io Mobile-BE Connected...');
+        console.log('Socket.io : Mobile-BE ['+url+'] Connected...');
+        console.log('Socket.io : id='+socket.id);  
 
         /*socket.emit('events', { test: 'test' ,time:new Date() });
         socket.emit('identity', 0, response =>
           console.log('Identity:', response),
-        );
+        );ss
 
         socket.emit('command', { address: 'test-address' ,time:new Date() } );
 
@@ -76,20 +83,6 @@
         */
       });
      
-
-      function buttonLocalhostClicked(){
-        document.getElementById('url').value = 'http://localhost:3000';
-      }
-      function buttonMyVMClicked(){
-        document.getElementById('url').value = 'http://192.168.1.150:3000';
-      }
-      function buttonMyVMLoadbalancerClicked(){
-        document.getElementById('url').value = 'http://192.168.1.150';
-      }
-      function buttonPRODClicked(){
-        document.getElementById('url').value = 'https://websocket-demo-poc.adldigitalservice.com/';
-      }
-
       function buttonRandomClicked(){
         document.getElementById('device-id').value = Math.floor(Math.random() * 100) + 1;
         document.getElementById('app-id').value = Math.floor(Math.random() * 100) + 1;
@@ -99,6 +92,7 @@
         var deviceID = document.getElementById('device-id').value;
         var appID = document.getElementById('app-id').value;
         var topicID = document.getElementById('topic-id').value;
+        var isProduceTomeSink = document.getElementById('isProduceTomeSink').checked;
 
         const payloadFE = {
           "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
@@ -108,6 +102,7 @@
               "invoke-id":"inv-1",
               "address":"99/99 Chatuchark Bangkok"
           },
+          "isProduceTomeSink":isProduceTomeSink,
           "modifytime":new Date()
         }
 
