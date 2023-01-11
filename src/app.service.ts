@@ -19,8 +19,8 @@ export class AppService {
 
   getHello(){
     this.cacheManager.set('myKey' ,`1234 ${new Date()}`);
-    const aa = this.cacheManager.get('myKey');
-    aa.then((cacheValue)=>{
+    const cacheMng = this.cacheManager.get('myKey');
+    cacheMng.then((cacheValue)=>{
       this.logger.log(`[on cachManager] cacheValue is : ${cacheValue}`);
     }).catch((error)=>{ 
       this.logger.log(`[on cachManager error ] ${error}`)
