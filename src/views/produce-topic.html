@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Produce Topic</title>
+    <title>PRODUCE TOPIC API</title>
 </head>
 <style>
   table, th, tr, td {
@@ -19,119 +19,6 @@
         <div>data</div><textarea id="data" name="data" autocomplete="off" rows="5" cols="100"></textarea>
         <button type="submit">Emit</button>
     </form> 
-    <hr>
-    <h1>TRIGGER EVENT</h1>
-    <table><tr>
-    <td rowspan="2">
-      <div>
-        <input type="checkbox" id="isProduceTomeSink" name="isProduceTomeSink"><label for="isProduceTomeSink">todo: send emit for produce tome_sink ?</label>
-        <hr>
-        <button onclick="buttonRandomClicked()">random key...</button>
-        deviceID:<input id="device-id" name="device-id" autocomplete="off" type='text'/>
-        appID:<input id="app-id" name="app-id" autocomplete="off" type='text'/>
-        topicID:<input id="topic-id" name="topic-id" autocomplete="off" type='text' size="40" value="tome_source"/>
-        <button onclick="buttonClicked()">command...</button>
-      </div>
-    </td>
-    <td>
-      <div>
-        <h2>on command result [fe ---> mobile-be]</h2>
-        <textarea id="command-result" rows="5" cols="100"></textarea> 
-      </div>
-      <hr>
-      <div>
-        <h2>on event result [mobilebe <--- kafka]</h2>
-        <textarea id="event-result" rows="5" cols="100"></textarea>
-      </div>
-    </td>
-    </tr></table>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <script>
-      //const url = "https://websocket-demo-poc.adldigitalservice.com/";
-      //const url = "http://192.168.1.150";  //vm nginx at home
-      const url = "http://10.10.0.150";  //vm nginx at office
-
-      //const url = "http://192.168.1.39:3000";  //localhost at home
-      //const url = "http://10.10.0.167:3000";  //localhost at office with wifi
-
-      const socket = io(url,{
-        extraHeaders: {
-          apptype: "web-browser-firefox",
-          appins : "ins1"
-        },
-        auth : {
-          token : "uuu@ppp"
-        }
-      }); 
-      socket.on('connect', function() {
-        console.log('Socket.io : Mobile-BE ['+url+'] Connected...');
-        console.log('Socket.io : id='+socket.id);  
-
-        /*socket.emit('events', { test: 'test' ,time:new Date() });
-        socket.emit('identity', 0, response =>
-          console.log('Identity:', response),
-        );ss
-
-        socket.emit('command', { address: 'test-address' ,time:new Date() } );
-
-
-        // Now that we are connected let's send our test call with callback
-        socket.emit('testmessage', {"topic":"test-payload",time:new Date()}, (response) => {
-            console.log(response)  
-        })
-        */
-      });
-     
-      function buttonRandomClicked(){
-        document.getElementById('device-id').value = Math.floor(Math.random() * 100) + 1;
-        document.getElementById('app-id').value = Math.floor(Math.random() * 100) + 1;
-      }
-
-      function buttonClicked(){
-        var deviceID = document.getElementById('device-id').value;
-        var appID = document.getElementById('app-id').value;
-        var topicID = document.getElementById('topic-id').value;
-        var isProduceTomeSink = document.getElementById('isProduceTomeSink').checked;
-
-        const payloadFE = {
-          "key": "deviceid-"+deviceID+"_appid-"+appID, // deviceid+appid
-          "command": topicID, // kafka topic 
-          "value" : {//"payload for produce kafka" 
-              "session-id": "abc1234",
-              "invoke-id":"inv-1",
-              "address":"99/99 Chatuchark Bangkok"
-          },
-          "isProduceTomeSink":isProduceTomeSink,
-          "modifytime":new Date()
-        }
-
-        socket.emit('command', payloadFE, (ack) => {
-            console.log(ack)  
-        })
-			}
-
-      //fe handler on 'event'
-      socket.on('command-result', function(msg) {
-        var item = document.getElementById('command-result');
-        item.innerText = msg; 
-      });
- 
-      //fe handler on 'event'
-      socket.on('event', function(msg) {
-        var item = document.getElementById('event-result');
-        item.innerText = JSON.stringify(msg); 
-      });
-
-      socket.on('exception', function(data) {
-        console.log('event', data);
-      });
-
-      socket.on('disconnect', function() {
-        console.log('Disconnected');
-      });
-    
-    </script>
 </body>
 
 </html>

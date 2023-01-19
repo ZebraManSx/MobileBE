@@ -129,7 +129,7 @@ export class EventsGateway implements OnGatewayInit ,OnGatewayConnection{
       
       const applicationCacheValue = {"socketid":client.id,
         "oldkey": oldKey,
-        "modify_instance": process.env.BE_INSTANCE,
+        "modify_instance": process.env.CONSUMER_GROUP_ID,
         "modifytime": new Date()
       };
 

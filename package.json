@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET BE_INSTANCE=devlocal1 && node dist/main",
-    "y": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET BE_INSTANCE=devlocal1 && nest start --debug --watch",
+    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && node dist/main",
+    "y": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && nest start --debug --watch",
     "z": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/",
     "prebuild": "rimraf dist ",
     "build": "nest build",
@@ -24,6 +24,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^1.0.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/microservices": "^9.2.1",

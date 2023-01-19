@@ -3,7 +3,9 @@
 npx nest g ga events --no-spec 
 npx nest g module events --no-spec
 
-  
+npx nest g module mdm --no-spec
+npx nest g service mdm --no-spec
+
 https://portal.azure.com/#home
 # docker install on myVM
     |--- sudo apt-get remove docker docker-engine docker.io
@@ -20,14 +22,17 @@ https://portal.azure.com/#home
 
 $sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.6.0 .
 
-$sudo docker run --env "BE_INSTANCE=dev1" --name=mobile-be-dev1 --rm -it -d -p 3000:3000 mobile-be:1.6.0
-$sudo docker run --env "BE_INSTANCE=dev2" --name=mobile-be-dev2 --rm -it -d -p 3001:3000 mobile-be:1.6.0
+$sudo docker run --env "CONSUMER_GROUP_ID=dev1" --name=mobile-be-lb-dev1-1 --rm -it -d -p 3000:3000 mobile-be:1.6.0
+$sudo docker run --env "CONSUMER_GROUP_ID=dev1" --name=mobile-be-lb-dev1-2 --rm -it -d -p 3001:3000 mobile-be:1.6.0
+
+$sudo docker run --env "CONSUMER_GROUP_ID=dev2" --name=mobile-be-dev2 --rm -it -d -p 3002:3000 mobile-be:1.6.0
+$sudo docker run --env "CONSUMER_GROUP_ID=dev3" --name=mobile-be-dev3 --rm -it -d -p 3003:3000 mobile-be:1.6.0
 
 # remove -d if want see log when error 
 
 root@ueransim:~# docker login registry.gitlab.com
 Username: iamzebraman
-Password: _nuissexx1234
+Password: 
 WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
 Configure a credential helper to remove this warning. See
 https://docs.docker.com/engine/reference/commandline/login/#credentials-store

@@ -19,7 +19,7 @@ const kafkaOptions: KafkaOptions = {
     },
     producerOnlyMode: true,
     consumer: {
-      groupId: `mobile-backend-instance-${process.env.BE_INSTANCE}`,
+      groupId: `mobile-backend-instance-${process.env.CONSUMER_GROUP_ID}`,
       allowAutoTopicCreation: true,
     }
   }
@@ -31,10 +31,14 @@ async function bootstrap() {
         ? ['log', 'error', 'warn', 'debug']
         : ['log', 'error', 'warn'],
   });
-
+  app.enableCors();
   app.connectMicroservice(kafkaOptions);
 
+  // Starts listening for shutdown hooks
+  app.enableShutdownHooks();
+
   await app.startAllMicroservices();
+  
   //console.log('dir is : '+join(__dirname, 'views'));
   //app.useStaticAssets(join(__dirname, 'views'));
   //app.setViewEngine('html');

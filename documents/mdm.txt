@@ -1,0 +1,9 @@
+ SETEX mdm_endpoints 3600 '[{"id":"1","href":"http://192.168.1.150:3002","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]},{"id":"2","href":"https://websocket-demo-poc.adldigitalservice.com/","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]}]'
+
+
+
+
+SETEX mdm_endpoints 3600 '[{"id":"1","href":"http://192.168.1.150:3002","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]} ,{"id":"2","href":"http://192.168.1.150:3002","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]} ,{"id":"3","href":"http://192.168.1.150:3003","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]} ,{"id":"4","href":"https://websocket-demo-poc.adldigitalservice.com/","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]}]
+
+
+SETEX mdm_endpoints 3600 '[{"id":"1","href":"http://192.168.1.150","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]},{"id":"2","href":"https://websocket-demo-poc.adldigitalservice.com/","@type":"CEDA-MDM","resourceCharacteristic":[{"name":"score","valueType":"number","id":"1","value":1000}]}]'

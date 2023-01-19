@@ -33,6 +33,9 @@ export class EventbusController {
       this.logger.log(`[on command topic] {@tome_source} produce topic ${topic} done`)
     }else{
       this.logger.log(`[on command topic] {@tome_source} waiting for produce topic : tome_sink from anyone(producer)....`)
+      this.logger.log(`...`);
+      this.logger.log(`..`);
+      this.logger.log(`.`);
     }
      
     /*
@@ -44,7 +47,7 @@ export class EventbusController {
 
       const obj = data; 
       obj["event"] = "source_tomed";
-      obj["modify_instance"] = process.env.BE_INSTANCE;
+      obj["modify_instance"] = process.env.CONSUMER_GROUP_ID;
       
       this.logger.log(`[on consume topic] {@tome_source} new data (add event) to obj is : ${JSON.stringify(obj)}`);
       this.event.server.to(clientid).emit('event',obj);
@@ -91,7 +94,7 @@ export class EventbusController {
       const obj = data; 
       obj["key"] = cacheData["oldkey"];
       obj["event"] = "sink_tomed";
-      obj["modify_instance"] = process.env.BE_INSTANCE;
+      obj["modify_instance"] = process.env.CONSUMER_GROUP_ID;
       obj["modifytime"] = new Date();
 
       this.logger.log(`[on consume topic] {@tome_sink} new data (add event) to obj is : ${JSON.stringify(obj)}`);
