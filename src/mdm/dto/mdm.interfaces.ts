@@ -1,7 +1,10 @@
-export interface Say { 
-    say: string;
-    modifytime: Date;
-};
+export interface RelatedParty {
+    href: string;
+    id: string;
+    name: string;
+    role: string;
+    "@referredType": string;
+} 
 
 export interface ResourceCharacteristic { 
     name: string; 
@@ -12,20 +15,12 @@ export interface ResourceCharacteristic {
 export interface ResourceSpecification {
     id: string;
     href: string;
-    "@referredType": "LogicalResourceSpecification" 
+    "@referredType": string; 
 }
-export interface RelatedParty {
-    href: string;
-    id: string;
-    name: string;
-    role: string;
-    "@referredType": "Individual";
-} 
 
-    
 export interface CreateResource {
     href : string;
-    id : string;
+    id? : string;
     activationFeature? : string;
     administrativeState? : string;
     attachment? : string;
@@ -45,7 +40,7 @@ export interface CreateResource {
     startOperatingDate? : string;
     usageState? : string;
     value? : string;
-    "@type": "MSISDN";
-    "@schemaLocation": "http://server:port/MSISDN.schema.json"; 
-    "@baseType": "Resource";
+    "@type": string;
+    "@schemaLocation": string; 
+    "@baseType": string;
 }

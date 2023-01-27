@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "b824af03-1fa9-4d45-9351-f1e4233ca399",
+		"name": "MDM-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17680646"
+	},
+	"item": [
+		{
+			"name": "Get Resource List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "code-server-session=%24argon2id%24v%3D19%24m%3D65536%2Ct%3D3%2Cp%3D4%24bQRThRC3gE48Rvy4jAD1JA%24nceI9vF3AMqsiMESWP%2F02eXh7tQV49eLbo47DMDIJfg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}{{proxy}}/ceda-api/ResourceActivationAndConfiguration/v4/resource",
+					"host": [
+						"{{host}}{{proxy}}"
+					],
+					"path": [
+						"ceda-api",
+						"ResourceActivationAndConfiguration",
+						"v4",
+						"resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add resource",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "code-server-session=%24argon2id%24v%3D19%24m%3D65536%2Ct%3D3%2Cp%3D4%24axJb3RGHQSHT14zY%2FgTx3A%24q5HpzS62TiTfwC0mqNZ042ulWsS9ZYtyAGuhM2ITZME",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"href\":\"http://128.199.78.215:20002\",\"@type\":\"CEDA-MDM\",\"resourceCharacteristic\":[{\"name\":\"score\",\"valueType\":\"number\",\"value\":1001}]}"
+				},
+				"url": {
+					"raw": "{{host}}{{proxy}}/ceda-api/ResourceActivationAndConfiguration/v4/resource",
+					"host": [
+						"{{host}}{{proxy}}"
+					],
+					"path": [
+						"ceda-api",
+						"ResourceActivationAndConfiguration",
+						"v4",
+						"resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Resource",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "code-server-session=%24argon2id%24v%3D19%24m%3D65536%2Ct%3D3%2Cp%3D4%24axJb3RGHQSHT14zY%2FgTx3A%24q5HpzS62TiTfwC0mqNZ042ulWsS9ZYtyAGuhM2ITZME",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}{{proxy}}/ceda-api/ResourceActivationAndConfiguration/v4/resource/63c672b8411531aa2e230716",
+					"host": [
+						"{{host}}{{proxy}}"
+					],
+					"path": [
+						"ceda-api",
+						"ResourceActivationAndConfiguration",
+						"v4",
+						"resource",
+						"63c672b8411531aa2e230716"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://127.0.0.1:8443",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "proxy",
+			"value": "/proxy/3000",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "proxy",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "https://mfaf-mdm-poc.adldigitalservice.com",
+			"type": "string"
+		}
+	]
+}

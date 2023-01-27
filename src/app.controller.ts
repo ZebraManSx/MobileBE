@@ -25,7 +25,7 @@ export class AppController {
   getMDMEndpoint(@Req() req: Request, @Res() res: Response){
     const aa = this.appService.getMDMEndpoints();
     aa.then((result)=>{
-      res.json({endpoints:result});
+      res.json(result);
     });
   }
 

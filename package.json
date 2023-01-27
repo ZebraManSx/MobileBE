@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && node dist/main",
+    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && SET MDM_URL=https://mfaf-mdm-poc.adldigitalservice.com && node dist/main",
     "y": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && nest start --debug --watch",
     "z": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/",
     "prebuild": "rimraf dist ",

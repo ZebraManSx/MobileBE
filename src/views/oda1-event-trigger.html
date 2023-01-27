@@ -49,9 +49,12 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      console.log(`0.DOMContentLoaded`);
+      console.log(`0. on DOMContentLoaded doGET mobile-be endpoint from MDM Service...`);
       //fetch("http://192.168.1.150/mdm/endpoints") //vm nginx at home 
-      fetch("http://192.168.1.39:3000/mdm/endpoints") //localhost:3000 on vscode at home
+      //fetch("http://192.168.1.39:3000/mdm/endpoints") //localhost:3000 on vscode at home
+      //fetch("http://10.10.0.167:3000/mdm/endpoints") //localhost:3000 on vscode at office
+
+      fetch("https://mfaf-mdm-poc.adldigitalservice.com/ceda-api/ResourceActivationAndConfiguration/v4/resource/") //localhost:3000 on vscode at office
         .then(response => response.json())
         .then(json => {
             const data = json;
@@ -82,9 +85,11 @@
 
         //const url = "http://192.168.1.39:3000";  //localhost at home
         //const url = "http://10.10.0.167:3000";  //localhost at office with wifi
-        console.log(`3.ODA-1 recieve endpoints from mdm is : ${JSON.stringify(myObj["endpoints"][0])}`) 
-        console.log(`4.ODA-1 select endpoints[0] is : ${myObj["endpoints"][0]["href"]}`) 
-        const url = myObj["endpoints"][0]["href"];
+        console.log(`3.1 ODA-1 recieve endpoints from mdm is : ${myObj.length}`) 
+        console.log(`3.2 ODA-1 recieve endpoints from mdm is : ${JSON.stringify(myObj[(myObj.length-1)])}`) 
+       
+        const url = myObj[(myObj.length-1)]["href"];
+        console.log(`4.ODA-1 select url is : ${url}`) 
         const socket = io(url,{
           extraHeaders: {
             apptype: "web-browser-firefox",

@@ -47,8 +47,8 @@ const kafkaOptions: KafkaOptions = {
       // @ts-ignore
       store: redisStore,
       socket: {
-        host: '192.168.1.150', //at home
-        //host : '10.10.0.150', //at office with WIFI 
+        //host: '192.168.1.150', //at home
+        host : '10.10.0.150', //at office with WIFI 
         port: 6379,
       },
     }),
