@@ -38,16 +38,14 @@ export class MdmService implements OnModuleInit ,OnApplicationShutdown{
             console.error(err);
         });*/
 
-        
         const mdmPayLoad = {} as CreateResource;
-        mdmPayLoad.id = "11";
-        //mdmPayLoad.href = "http://192.168.1.39:3000"; //at home
-        mdmPayLoad.href = "http://10.10.0.167:3000"; //at office
-        mdmPayLoad['@type'] = "CEDA-MDM-DEV-ENV";
+        mdmPayLoad.id = "1";
+        mdmPayLoad.href = process.env.BE_URL.trim() //"https://mfaf-mobile-be-poc.adldigitalservice.com" is PROD on cloud
+        mdmPayLoad['@type'] = "CEDA-MDM";
         const  resourceChar = {} as ResourceCharacteristic;
-        resourceChar.name = "premiumValue";
-        resourceChar.valueType = "string";
-        resourceChar.value = "gold";
+        resourceChar.name = "score";
+        resourceChar.valueType = "number";
+        resourceChar.value = 1000;
         mdmPayLoad.resourceCharacteristic =  [resourceChar];
 
         const mdmUrl = process.env.MDM_URL.trim()+'/ceda-api/ResourceActivationAndConfiguration/v4/resource';

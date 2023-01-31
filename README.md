@@ -20,13 +20,10 @@ https://portal.azure.com/#home
 # copy to myVm and extract
     |--- 7za x dist.7z
 
-$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be:1.6.0 .
+$sudo docker build --no-cache -f mobile-be.Dockerfile -t mobile-be-poc:2.0.0 .
 
-$sudo docker run --env "CONSUMER_GROUP_ID=dev1" --name=mobile-be-lb-dev1-1 --rm -it -d -p 3000:3000 mobile-be:1.6.0
-$sudo docker run --env "CONSUMER_GROUP_ID=dev1" --name=mobile-be-lb-dev1-2 --rm -it -d -p 3001:3000 mobile-be:1.6.0
+$sudo docker run -e "CONSUMER_GROUP_ID=dev1" -e "BE_URL=http://192.168.1.150:3000" -e "MDM_URL=https://mfaf-mdm-poc.adldigitalservice.com" -e "RADIS_HOST=192.168.1.150" -e "RADIS_PORT=6379" --name=mobile-be-poc-1 --rm -it -d -p 3000:3000 mobile-be-poc:2.0.0
 
-$sudo docker run --env "CONSUMER_GROUP_ID=dev2" --name=mobile-be-dev2 --rm -it -d -p 3002:3000 mobile-be:1.6.0
-$sudo docker run --env "CONSUMER_GROUP_ID=dev3" --name=mobile-be-dev3 --rm -it -d -p 3003:3000 mobile-be:1.6.0
 
 # remove -d if want see log when error 
 
@@ -38,13 +35,14 @@ Configure a credential helper to remove this warning. See
 https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
 Login Succeeded
+
+# v1
 root@ueransim:~# docker tag mobile-be:1.5.0  registry.gitlab.com/next-db-community/next-icd/socketiodemo:1.5.0
 root@ueransim:~# docker push registry.gitlab.com/next-db-community/next-icd/socketiodemo:1.3.0
 
-
-root@ueransim:~# docker tag mobilebe:1.2.0  registry.gitlab.com/next-db-community/next-icd/socketiodemo/mobilebe:1.2.0
-root@ueransim:~# docker push registry.gitlab.com/next-db-community/next-icd/mobile:1.2.0
-
+# v2 [radis+mdm]
+docker tag mobile-be-poc:2.0.0 registry.gitlab.com/next-db-community/next-icd/mobile-be-poc:2.0.0
+docker push registry.gitlab.com/next-db-community/next-icd/mobile-be-poc:2.0.0
 
 # at ADL
 git clone https://github.com/ZebraManSx/SocketIODemoHelm
@@ -55,10 +53,11 @@ kubectl create ns mobile-be
 https://websocket-demo-poc.adldigitalservice.com/
 
     |--- /produce-topic 
+    |--- /oda1-event-trigger
 
 # create namespace
-[surat443@vm-admd-jumphost-linux-001 helm]$ kubectl create namespace mobile-be
-namespace/mobile-be created
+[surat443@vm-admd-jumphost-linux-001 helm]$ kubectl create namespace mobile-be-poc
+namespace/mobile-be-poc created
 
 # kubectl logs pod-name container-name
 $kubectl logs -n websocket-demo socketiodemo-5fc8d58994-vpbrj socketiodemo -f

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, KafkaOptions, Transport } from '@nestjs/microservices';
 import { logLevel } from '@nestjs/microservices/external/kafka.interface'; 
 import { EventbusController } from './eventbus.controller';
+import { EventbusService } from './eventbus.service';
 
 const kafkaOptions: KafkaOptions = {
  
@@ -34,6 +35,7 @@ const kafkaOptions: KafkaOptions = {
     },
   ])
   ],
-  controllers: [EventbusController], 
+  controllers: [EventbusController],
+  providers: [EventbusService], 
 })
 export class EventbusModule {}

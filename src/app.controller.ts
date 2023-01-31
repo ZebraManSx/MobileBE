@@ -2,7 +2,6 @@ import { Body, Controller, Get , Post, Req, Res ,Logger} from '@nestjs/common';
 import { join } from 'path';
 import { AppService } from './app.service';
 import { Response, Request } from 'express';
-import { CreateResource, ResourceCharacteristic } from './mdm/dto/mdm.interfaces';
 
 @Controller()
 export class AppController {
@@ -21,6 +20,7 @@ export class AppController {
   getENVInformations() {
     return this.appService.getENVInformations();
   }
+  
   @Get("/mdm/endpoints")
   getMDMEndpoint(@Req() req: Request, @Res() res: Response){
     const aa = this.appService.getMDMEndpoints();
@@ -32,11 +32,6 @@ export class AppController {
   @Get("/oda1-event-trigger") 
   viewODA1EventTrigger(@Req() req: Request, @Res() res: Response) { 
     res.sendFile(join(__dirname, '/views/oda1-event-trigger.html'));
-  }
-
-  @Get("/oda2-event-trigger") 
-  viewODA2EventTrigger(@Req() req: Request, @Res() res: Response) { 
-    res.sendFile(join(__dirname, '/views/oda2-event-trigger.html'));
   }
 
   @Get("/produce-topic") 

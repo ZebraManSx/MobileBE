@@ -9,7 +9,7 @@ export interface RelatedParty {
 export interface ResourceCharacteristic { 
     name: string; 
     valueType: string;
-    value: string;
+    value: any;
 }; 
  
 export interface ResourceSpecification {

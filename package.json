@@ -1,12 +1,12 @@
 {
   "name": "mobile-be",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && SET MDM_URL=https://mfaf-mdm-poc.adldigitalservice.com && node dist/main",
+    "x": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && SET BE_URL=http://192.168.1.39:3000 && SET MDM_URL=https://mfaf-mdm-poc.adldigitalservice.com && SET RADIS_HOST=192.168.1.150 && SET RADIS_PORT=6379 && node dist/main",
     "y": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/ && SET CONSUMER_GROUP_ID=devlocal1 && nest start --debug --watch",
     "z": "rimraf dist && nest build && @powershell copy -R ./src/views/ ./dist/views/ && @powershell copy ./package.json ./dist/",
     "prebuild": "rimraf dist ",

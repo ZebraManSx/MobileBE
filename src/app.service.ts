@@ -24,7 +24,6 @@ export class AppService {
     return cacheMng;
   }
 
-
   getHello(){
     this.cacheManager.set('myKey' ,`Hello 1234 ${new Date()} from redis`);
     const cacheMng = this.cacheManager.get('myKey');

@@ -91,14 +91,13 @@
         const url = myObj[(myObj.length-1)]["href"];
         console.log(`4.ODA-1 select url is : ${url}`) 
         const socket = io(url,{
-          extraHeaders: {
-            apptype: "web-browser-firefox",
-            appins : "ODA-INSTANCE-1"
+          extraHeaders: { 
+            key:"8d1c9596-7917-5d68-9be6-c7f6cf1bd97bMFAF"
           },
           auth : {
             token : "uuu@ppp"
           }
-        }); 
+        });
 
         socket.on('connect', function() {
           console.log('5.Socket.io : Mobile-BE ['+url+'] Connected...');

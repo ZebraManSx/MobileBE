@@ -59,23 +59,23 @@ export class EventsGateway implements OnGatewayInit ,OnGatewayConnection{
 
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`***** on handleConnection... *****`)
-    const applicationCacheKey = `${client.handshake.headers.apptype}__${client.handshake.headers.appins}`
+    const applicationCacheKey = `${client.handshake.headers.key}`;
     const cacheMng =  this.cacheManager.get(applicationCacheKey);
     cacheMng.then((result)=>{
       if(result!=null){
-        this.logger.log(`key "${applicationCacheKey}" , value=${JSON.stringify(result)}`)
+        this.logger.log(`key="${applicationCacheKey}" , value=${JSON.stringify(result)}`)
 
         const newCache =  result;
         newCache["socketid"] = client.id;
         const updateCacheMng = this.cacheManager.set(applicationCacheKey,newCache);
         updateCacheMng.then((result)=>{
-          this.logger.log(`update key "${applicationCacheKey}" , value=${JSON.stringify(newCache)} is ${result}`)
+          this.logger.log(`update key="${applicationCacheKey}" , value=${JSON.stringify(newCache)} is ${result}`)
         }).catch((error)=>{
           this.logger.log(error);
         });
 
       }else{
-        this.logger.log(`key "${applicationCacheKey}" not found`)
+        this.logger.log(`key="${applicationCacheKey}" not found`)
       }
     }).catch((error)=>{
       this.logger.log(`error:${error}`);
@@ -86,10 +86,10 @@ export class EventsGateway implements OnGatewayInit ,OnGatewayConnection{
   onCommand(@ConnectedSocket() client: Socket, @MessageBody() body: any){
     const ack = {"result":"act"}
     try{
-      const applicationCacheKey = `${client.handshake.headers.apptype}__${client.handshake.headers.appins}`
+      const applicationCacheKey = `${client.handshake.headers.key}`
       this.logger.log(`[on command] ======= start transaction [${applicationCacheKey}] ======`)
       this.logger.log("[on command] data [OLD] is : "+JSON.stringify(body))
-      const oldKey = body["key"]
+      const payloadKey = body["key"]
 
       this.logger.log(`[on command] begin transaction client client.handshake.address is: ${client.handshake.address}`)
       this.logger.log(`[on command] begin transaction client client.handshake.headers is: ${JSON.stringify(client.handshake.headers)}`)
@@ -114,7 +114,7 @@ export class EventsGateway implements OnGatewayInit ,OnGatewayConnection{
     //this.logger.log(`[on command] [store] push key is : ${body["key"]}`); 
     //this.logger.log(`[on command] [store] with clientID is : ${client.id}`);
 
-      const ack = {"result":"act"}
+    //const ack = {"result":"act"}
     //this.webSocketService.pushSocketData(body["key"],client.id);
     
     /*store.then((isStore)=>{
@@ -125,10 +125,8 @@ export class EventsGateway implements OnGatewayInit ,OnGatewayConnection{
     })*/
  
       const ttl = 6000;
-
-      
       const applicationCacheValue = {"socketid":client.id,
-        "oldkey": oldKey,
+        "payloadkey": payloadKey,
         "modify_instance": process.env.CONSUMER_GROUP_ID,
         "modifytime": new Date()
       };

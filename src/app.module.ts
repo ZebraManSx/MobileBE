@@ -48,8 +48,8 @@ const kafkaOptions: KafkaOptions = {
       store: redisStore,
       socket: {
         //host: '192.168.1.150', //at home
-        host : '10.10.0.150', //at office with WIFI 
-        port: 6379,
+        host : `${process.env.RADIS_HOST.trim()}`, 
+        port: `${process.env.RADIS_PORT.trim()}`, //default 6379
       },
     }),
     WebSocketModule,
